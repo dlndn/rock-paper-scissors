@@ -35,26 +35,36 @@ function getPlayerChoice() {
     }
 }
 
+function displayResult(result) {
+    let resultsDisplay = document.querySelector('#resultsDisplay');
+    resultsDisplay.textContent = ''; //clear previous result
+    resultsDisplay.textContent += (result + '');
+}
+
 function playRound(playerSelection, computerSelection) {
     let result = "";
+    let resultsLog = "";
 
     //losing conditions
     if ((playerSelection == ROCK && computerSelection == PAPER) || 
         (playerSelection == PAPER && computerSelection == SCISSORS) ||
         (playerSelection == SCISSORS && computerSelection == ROCK)) {
-        console.log("You lose! " + computerSelection + " beats " + playerSelection);
+        resultsLog = "You lose! " + computerSelection + " beats " + playerSelection;
+        displayResult(resultsLog);
         result = LOSE;
 
     //winning conditions
     } else if  ((playerSelection == ROCK && computerSelection == SCISSORS) || 
                 (playerSelection == PAPER && computerSelection == ROCK) ||
                 (playerSelection == SCISSORS && computerSelection == PAPER)) {
-        console.log("You win! " + playerSelection + " beats " + computerSelection);
+        resultsLog = "You win! " + playerSelection + " beats " + computerSelection;
+        displayResult(resultsLog);
         result = WIN;
     
     //tie
     } else {
-        console.log("It's a tie! You both picked " + playerSelection + ".");
+        resultsLog = "It's a tie! You both picked " + playerSelection + ".";
+        displayResult(resultsLog);
         result = TIE;
     }
 
