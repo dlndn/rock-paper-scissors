@@ -8,6 +8,10 @@ const TIE = "tie";
 const TOTAL_ROUNDS = 5;
 const TOTAL_CHOICES = 3;
 
+let rockButton = document.querySelector('#rockButton');
+let paperButton = document.querySelector('#paperButton');
+let scissorsButton = document.querySelector('#scissorsButton');
+
 function getComputerChoice() {
     let choices = [ROCK, PAPER, SCISSORS];
     return choices[Math.floor(Math.random() * TOTAL_CHOICES)];
@@ -88,4 +92,14 @@ function game() {
     }
 }
 
-game();
+rockButton.addEventListener('click', () => {
+    playRound(ROCK, getComputerChoice());
+});
+
+paperButton.addEventListener('click', () => {
+    playRound(PAPER, getComputerChoice());
+});
+
+scissorsButton.addEventListener('click', () => {
+    playRound(SCISSORS, getComputerChoice());
+});
