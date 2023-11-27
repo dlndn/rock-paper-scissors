@@ -1,4 +1,3 @@
-let computerChoice = "";
 const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
@@ -10,9 +9,9 @@ const TOTAL_CHOICES = 3;
 const WINNING_SCORE = 5;
 const STARTING_SCORE = 0;
 
-let rockButton = document.querySelector('#rockButton');
-let paperButton = document.querySelector('#paperButton');
-let scissorsButton = document.querySelector('#scissorsButton');
+let playerScore = STARTING_SCORE;
+let computerScore = STARTING_SCORE;
+let roundResult = "";
 
 function getComputerChoice() {
     let choices = [ROCK, PAPER, SCISSORS];
@@ -35,7 +34,6 @@ function playRound(playerSelection, computerSelection) {
         (playerSelection == PAPER && computerSelection == SCISSORS) ||
         (playerSelection == SCISSORS && computerSelection == ROCK)) {
         resultsLog = "You lose! " + computerSelection + " beats " + playerSelection;
-        displayResult(resultsLog);
         result = LOSE;
 
     //winning conditions
@@ -43,16 +41,15 @@ function playRound(playerSelection, computerSelection) {
                 (playerSelection == PAPER && computerSelection == ROCK) ||
                 (playerSelection == SCISSORS && computerSelection == PAPER)) {
         resultsLog = "You win! " + playerSelection + " beats " + computerSelection;
-        displayResult(resultsLog);
         result = WIN;
     
     //tie
     } else {
         resultsLog = "It's a tie! You both picked " + playerSelection + ".";
-        displayResult(resultsLog);
         result = TIE;
     }
-
+    
+    displayResult(resultsLog);
     return result;
 }
 
@@ -86,75 +83,34 @@ function gameOver(playerScore, computerScore) {
     }
 }
 
-function game() {
-    let playerScore = STARTING_SCORE;
-    let computerScore = STARTING_SCORE;
-    let roundResult = "";
+function clickHandler(playerChoice) {
+    roundResult = playRound(playerChoice, getComputerChoice());
+        
+    if (roundResult == WIN) {
+        playerScore++; 
+    }
+    
+    if (roundResult == LOSE) {
+        computerScore++;
+    }
 
+    updateDisplayedScores(playerScore, computerScore);
+
+    if (isGameOver(playerScore, computerScore)) {
+        gameOver(playerScore, computerScore);
+        playerScore = STARTING_SCORE;
+        computerScore = STARTING_SCORE;
+    }
+}
+
+function game() {
     let rockButton = document.querySelector('#rockButton');
     let paperButton = document.querySelector('#paperButton');
     let scissorsButton = document.querySelector('#scissorsButton');
 
-    rockButton.addEventListener('click', () => {
-        roundResult = playRound(ROCK, getComputerChoice());
-        
-        if (roundResult == WIN) {
-            playerScore++; 
-        }
-        
-        if (roundResult == LOSE) {
-            computerScore++;
-        }
-
-        updateDisplayedScores(playerScore, computerScore);
-
-        if (isGameOver(playerScore, computerScore)) {
-            gameOver(playerScore, computerScore);
-            playerScore = STARTING_SCORE;
-            computerScore = STARTING_SCORE;
-        }
-    });
-    
-    paperButton.addEventListener('click', () => {
-        
-        roundResult = playRound(PAPER, getComputerChoice());
-        
-        if (roundResult == WIN) {
-            playerScore++; 
-        }
-        
-        if (roundResult == LOSE) {
-            computerScore++;
-        }
-        
-        updateDisplayedScores(playerScore, computerScore);
-
-        if (isGameOver(playerScore, computerScore)) {
-            gameOver(playerScore, computerScore);
-            playerScore = STARTING_SCORE;
-            computerScore = STARTING_SCORE;
-        }
-    });
-    
-    scissorsButton.addEventListener('click', () => {
-        roundResult = playRound(SCISSORS, getComputerChoice());
-
-        if (roundResult == WIN) {
-            playerScore++; 
-        }
-        
-        if (roundResult == LOSE) {
-            computerScore++;
-        }
-
-        updateDisplayedScores(playerScore, computerScore);
-
-        if (isGameOver(playerScore, computerScore)) {
-            gameOver(playerScore, computerScore);
-            playerScore = STARTING_SCORE;
-            computerScore = STARTING_SCORE;
-        }
-    }); 
+    rockButton.addEventListener('click', () => clickHandler(ROCK));
+    paperButton.addEventListener('click', () => clickHandler(PAPER));
+    scissorsButton.addEventListener('click', () => clickHandler(SCISSORS));
 }
 
 game();
