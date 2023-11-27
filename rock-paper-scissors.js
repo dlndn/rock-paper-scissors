@@ -20,9 +20,7 @@ function getComputerChoice() {
 
 function displayResult(result) {
     let resultsDisplay = document.querySelector('#resultsDisplay');
-    let newResult = document.createElement('p');
-    newResult.textContent = result;
-    resultsDisplay.appendChild(newResult);
+    resultsDisplay.textContent = result;
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -33,14 +31,14 @@ function playRound(playerSelection, computerSelection) {
     if ((playerSelection == ROCK && computerSelection == PAPER) || 
         (playerSelection == PAPER && computerSelection == SCISSORS) ||
         (playerSelection == SCISSORS && computerSelection == ROCK)) {
-        resultsLog = "You lose! " + computerSelection + " beats " + playerSelection;
+        resultsLog = "You lose! " + computerSelection + " beats " + playerSelection + ".";
         result = LOSE;
 
     //winning conditions
     } else if  ((playerSelection == ROCK && computerSelection == SCISSORS) || 
                 (playerSelection == PAPER && computerSelection == ROCK) ||
                 (playerSelection == SCISSORS && computerSelection == PAPER)) {
-        resultsLog = "You win! " + playerSelection + " beats " + computerSelection;
+        resultsLog = "You win! " + playerSelection + " beats " + computerSelection + ".";
         result = WIN;
     
     //tie
@@ -70,17 +68,19 @@ function isGameOver(playerScore, computerScore) {
 }
 
 function gameOver(playerScore, computerScore) {
+    let gameResult = "";
+    let resultsDisplay = document.querySelector('#resultsDisplay');
+
     if (playerScore == WINNING_SCORE) {
-        displayResult("Game Over. You won the game!");
+        gameResult = "Game Over. You won the game!";
+
+    } else if (computerScore == WINNING_SCORE) {
+        gameResult = "Game Over. You lost the game!";
+    } else {
+        gameResult = "Game Over. It is a tie!";
     }
 
-    if (computerScore == WINNING_SCORE) {
-        displayResult("Game Over. You lost the game!");
-    }
-
-    if (computerScore == playerScore) {
-        displayResult("Game Over. It is a tie!");
-    }
+    resultsDisplay.textContent += " " + gameResult;
 }
 
 function clickHandler(playerChoice) {
